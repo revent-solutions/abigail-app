@@ -52,7 +52,7 @@ class AuthController extends GetxController with GetTickerProviderStateMixin {
 
       await updateAppData(email: id.text);
       Get.offAllNamed("/main");
-    } on FirebaseAuthException catch (e) {
+    } on FirebaseAuthException {
       isPasswordCheck[0].value = false;
       Get.snackbar('로그인 실패', '이메일,비밀번호를 다시한번 확인해주세요.');
     }
@@ -68,7 +68,7 @@ class AuthController extends GetxController with GetTickerProviderStateMixin {
     }
     try {
       var result = await FirebaseAuth.instance.createUserWithEmailAndPassword(
-          email: '${id.text}', password: password[0].text);
+          email: id.text, password: password[0].text);
 
       final firebaseInstance = FirebaseFirestore.instance;
       final CollectionReference userCollection =
@@ -78,7 +78,7 @@ class AuthController extends GetxController with GetTickerProviderStateMixin {
       await userCollection.doc(uid).set({
         "uid": uid,
         "name": name.text,
-        "email": '${id.text}',
+        "email": id.text,
         "id": id.text,
         'type': type,
       });

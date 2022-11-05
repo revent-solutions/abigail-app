@@ -1,7 +1,6 @@
 import 'package:abigail/common/utils/helper/email_format_helper.dart';
 import 'package:abigail/pages/auth/controller/auth_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 

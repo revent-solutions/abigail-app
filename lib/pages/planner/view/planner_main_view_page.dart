@@ -104,7 +104,7 @@ class _PlannerMainViewPage extends State<PlannerMainViewPage> {
                     });
                   },
                   child: Center(
-                    child: Container(
+                    child: SizedBox(
                       width: 20.w,
                       height: 20.h,
                       child: SvgPicture.asset('assets/icon/minus_icon.svg'),

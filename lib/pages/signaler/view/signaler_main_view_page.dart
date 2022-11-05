@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:abigail/pages/planner/controller/planner_controller.dart';
 import 'package:abigail/pages/signaler/controller/signaler_controller.dart';
 import 'package:get/get.dart';
 import 'package:get/get_connect/http/src/utils/utils.dart';
@@ -83,36 +82,40 @@ class SignalerMainViewPage extends StatelessWidget {
                   ),
                   Column(
                     children: [
-                      mediumButton(
+                      Obx(() => mediumButton(
                           text: "",
                           svg: 'assets/icon/up_icon.svg',
                           notcolor: true,
                           controller: controller,
                           islongTap: T,
-                          index: 5),
-                      mediumButton(
+                          isdirectionindex: 0,
+                          index: 5)),
+                      Obx(() => mediumButton(
                           text: "",
                           svg: 'assets/icon/doubleUp_icon.svg',
                           notcolor: true,
                           vertical: true,
                           controller: controller,
+                          isdirectionindex: 1,
                           islongTap: T,
-                          index: 6),
-                      mediumButton(
+                          index: 6)),
+                      Obx(() => mediumButton(
                           text: "",
                           svg: 'assets/icon/doubleDown_icon.svg',
                           notcolor: true,
                           controller: controller,
+                          isdirectionindex: 2,
                           islongTap: T,
-                          index: 8),
-                      mediumButton(
+                          index: 8)),
+                      Obx(() => mediumButton(
                           text: "",
                           svg: 'assets/icon/down_icon.svg',
                           notcolor: true,
                           vertical: true,
                           controller: controller,
+                          isdirectionindex: 3,
                           islongTap: T,
-                          index: 7),
+                          index: 7)),
                     ],
                   )
                 ],
@@ -146,55 +149,71 @@ Widget bigButton({
   bool isthreetap = false,
 }) {
   return GestureDetector(
-    onTap: () {
-      if (isthreetap) {
-        int now = DateTime.now().millisecondsSinceEpoch;
-        if (now - controller.lastTap < 1000) {
-          controller.consecutiveTaps++;
-          if (controller.consecutiveTaps == 2) {
-            controller.updates(12);
+      onTap: () {
+        if (isthreetap) {
+          int now = DateTime.now().millisecondsSinceEpoch;
+          if (now - controller.lastTap < 1000) {
+            controller.consecutiveTaps++;
+            if (controller.consecutiveTaps == 2) {
+              controller.updates(12);
+            }
+          } else {
+            controller.consecutiveTaps = 0;
           }
+          controller.lastTap = now;
         } else {
-          controller.isSmallButton[0].value
-              ? controller.updates(4)
-              : controller.isSmallButton[1].value
-                  ? controller.updates(10)
-                  : controller.updates(15);
-
-          controller.consecutiveTaps = 0;
+          controller.updates(18);
         }
-        controller.lastTap = now;
-      } else {
-        controller.updates(18);
-      }
-    },
-    child: Container(
-        height: 56.h,
-        width: MediaQuery.of(context).size.width,
-        margin: EdgeInsets.symmetric(horizontal: 24.w, vertical: 8.h),
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(4.r), color: Colors.white),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              width: 20.w,
-              height: 20.h,
-              child: SvgPicture.asset(svg),
-              margin: EdgeInsets.only(right: 8.w),
-            ),
-            Text(text,
-                style: TextStyle(
-                  color: Colors.black,
-                  fontFamily: 'Pretendard',
-                  fontSize: 16.sp,
-                  height: 2.5.h,
-                  fontWeight: FontWeight.w500,
-                ))
-          ],
-        )),
-  );
+      },
+      child: Obx(
+        () => Container(
+            height: 56.h,
+            width: MediaQuery.of(context).size.width,
+            margin: EdgeInsets.symmetric(horizontal: 24.w, vertical: 8.h),
+            decoration: BoxDecoration(
+                border: Border.all(
+                    width: ((controller.isSmallButton[2].value ||
+                                controller.isSmallButton[1].value ||
+                                controller.isSmallButton[0].value) &&
+                            isthreetap)
+                        ? 0
+                        : 1.w,
+                    color: const Color.fromRGBO(255, 255, 255, 0.56)),
+                borderRadius: BorderRadius.circular(4.r),
+                color: ((controller.isSmallButton[2].value ||
+                            controller.isSmallButton[1].value ||
+                            controller.isSmallButton[0].value) &&
+                        isthreetap)
+                    ? const Color(0xFFc5cacc)
+                    : Colors.white),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  width: 20.w,
+                  height: 20.h,
+                  margin: EdgeInsets.only(right: 8.w),
+                  child: SvgPicture.asset(
+                    svg,
+                  ),
+                ),
+                Text(text,
+                    style: TextStyle(
+                      color: ((controller.isSmallButton[2].value ||
+                                  controller.isSmallButton[1].value ||
+                                  controller.isSmallButton[0].value) &&
+                              isthreetap)
+                          ? Colors.white
+                          : Colors.black,
+                      fontFamily: 'Pretendard',
+                      fontSize: 16.sp,
+                      height: 2.5.h,
+                      fontWeight: FontWeight.w500,
+                    ))
+              ],
+            )),
+      ));
 }
 
 Widget mediumButton(
@@ -203,17 +222,26 @@ Widget mediumButton(
     bool vertical = false,
     bool notcolor = false,
     bool islongTap = false,
+    int isdirectionindex = 0,
     Color textColor = Colors.black,
     required int index,
     required SignalerController controller}) {
   return GestureDetector(
     onLongPress: () {
       if (islongTap) {
+        for (int i = 0; i < controller.isdirection.length; i++) {
+          controller.isdirection[i].value = false;
+        }
+        controller.isdirection[isdirectionindex].value = true;
         controller.updates(index);
       }
     },
     onLongPressEnd: (details) {
       if (islongTap) {
+        for (int i = 0; i < controller.isdirection.length; i++) {
+          controller.isdirection[i].value = false;
+        }
+
         controller.updates(0);
       }
     },
@@ -232,7 +260,11 @@ Widget mediumButton(
             border: Border.all(
                 width: notcolor ? 1.w : 0,
                 color: const Color.fromRGBO(255, 255, 255, 0.56)),
-            color: notcolor ? const Color(0xFF005cab) : Colors.white),
+            color: (islongTap && controller.isdirection[isdirectionindex].value)
+                ? Colors.blue[300]
+                : notcolor
+                    ? const Color(0xFF005cab)
+                    : Colors.white),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
@@ -262,35 +294,46 @@ Widget smallButton(
     {required String text,
     required SignalerController controller,
     required int index}) {
-  return Obx(() => Container(
-        width: 98.w,
-        height: 56.h,
-        margin: EdgeInsets.symmetric(horizontal: 4.w),
-        decoration: BoxDecoration(
-            border: Border.all(
-                width: controller.isSmallButton[index].value ? 0 : 1.w,
-                color: const Color.fromRGBO(255, 255, 255, 0.56)),
-            borderRadius: BorderRadius.circular(4.r),
-            color: controller.isSmallButton[index].value
-                ? Colors.white
-                : const Color(0xFFc5cacc)),
-        child: InkWell(
-            onTap: () {
-              controller.isSmallButton[0].value = false;
-              controller.isSmallButton[1].value = false;
-              controller.isSmallButton[2].value = false;
-              controller.isSmallButton[index].value = true;
-            },
+  return Obx(() => GestureDetector(
+        onLongPress: () {
+          controller.isSmallButton[0].value = false;
+          controller.isSmallButton[1].value = false;
+          controller.isSmallButton[2].value = false;
+          controller.isSmallButton[index].value = true;
+          controller.isSmallButton[0].value
+              ? controller.updates(4)
+              : controller.isSmallButton[1].value
+                  ? controller.updates(10)
+                  : controller.updates(15);
+        },
+        onLongPressEnd: (details) {
+          controller.isSmallButton[0].value = false;
+          controller.isSmallButton[1].value = false;
+          controller.isSmallButton[2].value = false;
+          controller.updates(0);
+        },
+        child: Container(
+            width: 98.w,
+            height: 56.h,
+            margin: EdgeInsets.symmetric(horizontal: 4.w),
+            decoration: BoxDecoration(
+                border: Border.all(
+                    width: controller.isSmallButton[index].value ? 0 : 1.w,
+                    color: const Color.fromRGBO(255, 255, 255, 0.56)),
+                borderRadius: BorderRadius.circular(4.r),
+                color: controller.isSmallButton[index].value
+                    ? Colors.white
+                    : const Color(0xFFc5cacc)),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Container(
+                SizedBox(
                   width: 20.w,
                   height: 20.h,
                   child: SvgPicture.asset(
                     'assets/icon/check_icon.svg',
                     color: controller.isSmallButton[index].value
-                        ? Color(0xFF0089ff)
+                        ? const Color(0xFF0089ff)
                         : Colors.white,
                   ),
                 ),

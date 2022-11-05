@@ -157,9 +157,6 @@ Widget workSpaceTile(
                 mainText: "수락 대기중",
                 numberOfButton: 1,
                 button2Function: () async {
-                  await FirebaseDatabase.instance
-                      .ref(controller.uid[index])
-                      .remove();
                   Get.back();
                 }));
           }

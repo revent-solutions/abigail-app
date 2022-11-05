@@ -2,7 +2,6 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:abigail/common/data/appdata.dart';
-import 'package:abigail/pages/auth/view/register_viewpage.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -60,7 +59,7 @@ class PlannerController extends GetxController {
                         ? TextDecoration.lineThrough
                         : TextDecoration.none,
                     color: itemBool[index].value
-                        ? Color(0xFF555555)
+                        ? const Color(0xFF555555)
                         : Colors.black,
                     fontFamily: 'Pretendard',
                     fontSize: 16.sp,
@@ -193,7 +192,7 @@ class PlannerController extends GetxController {
                           ? TextDecoration.lineThrough
                           : TextDecoration.none,
                       color: itemBool[newIndex].value
-                          ? Color(0xFF555555)
+                          ? const Color(0xFF555555)
                           : Colors.black,
                       fontFamily: 'Pretendard',
                       fontSize: 16.sp,
