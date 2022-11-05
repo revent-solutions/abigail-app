@@ -1,0 +1,7 @@
+# Dart tools
+.dart_tool
+
+# Package related
+pubspec.lock
+.flutter*
+
