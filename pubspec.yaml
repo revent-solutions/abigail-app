@@ -1,0 +1,43 @@
+name: abigail
+description: A new Flutter project.
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.17.6 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.2
+  http: ^0.13.4
+  get: ^4.6.5
+  firebase_auth: ^4.1.0
+  firebase_core: ^2.1.1
+  firebase_messaging: ^14.0.3
+  flutter_screenutil: ^5.5.3+1
+  firebase_crashlytics: ^3.0.1
+  flutter_svg: ^1.1.5
+  cloud_firestore: ^4.0.3
+  firebase_database: ^10.0.3
+  reorderables: ^0.5.0
+
+  
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  change_app_package_name: ^1.1.0
+  flutter_lints: ^2.0.0
+  flutter_launcher_icons:
+
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/
+    - assets/icon/
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/icon/icon.png"

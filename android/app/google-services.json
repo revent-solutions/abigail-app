@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "955559764958",
+    "firebase_url": "https://abigail-28058-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "abigail-28058",
+    "storage_bucket": "abigail-28058.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:955559764958:android:0d026d86c605ef442d334f",
+        "android_client_info": {
+          "package_name": "com.abigail.abigail"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "955559764958-tic8dgsmrq2rpmec5q8n7hkhedvpb73u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDlG-5PdPGEhxDhMmKblkCUrw7o_-F_nlo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "955559764958-tic8dgsmrq2rpmec5q8n7hkhedvpb73u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
