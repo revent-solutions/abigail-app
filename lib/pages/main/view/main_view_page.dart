@@ -98,7 +98,7 @@ Widget workSpace(MainController controller) {
               return Obx(() => ListView.builder(
                     physics: const ScrollPhysics(),
                     shrinkWrap: true,
-                    itemCount: controller.opponentuid.length,
+                    itemCount: controller.uid.length,
                     itemBuilder: (context, index) {
                       return workSpaceTile(context, index, controller);
                     },

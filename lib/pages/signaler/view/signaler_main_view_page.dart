@@ -165,6 +165,24 @@ Widget bigButton({
           controller.updates(18);
         }
       },
+      onLongPress: () {
+        if (isthreetap) {
+          controller.isSmallButton[0].value
+              ? controller.updates(4)
+              : controller.isSmallButton[1].value
+                  ? controller.updates(10)
+                  : controller.updates(15);
+
+          controller.isBigButton.value = true;
+        }
+      },
+      onLongPressEnd: (detail) {
+        if (isthreetap) {
+          controller.updates(0);
+
+          controller.isBigButton.value = false;
+        }
+      },
       child: Obx(
         () => Container(
             height: 56.h,
@@ -172,18 +190,12 @@ Widget bigButton({
             margin: EdgeInsets.symmetric(horizontal: 24.w, vertical: 8.h),
             decoration: BoxDecoration(
                 border: Border.all(
-                    width: ((controller.isSmallButton[2].value ||
-                                controller.isSmallButton[1].value ||
-                                controller.isSmallButton[0].value) &&
-                            isthreetap)
+                    width: ((controller.isBigButton.value) && isthreetap)
                         ? 0
                         : 1.w,
                     color: const Color.fromRGBO(255, 255, 255, 0.56)),
                 borderRadius: BorderRadius.circular(4.r),
-                color: ((controller.isSmallButton[2].value ||
-                            controller.isSmallButton[1].value ||
-                            controller.isSmallButton[0].value) &&
-                        isthreetap)
+                color: ((controller.isBigButton.value) && isthreetap)
                     ? const Color(0xFFc5cacc)
                     : Colors.white),
             child: Row(
@@ -200,10 +212,7 @@ Widget bigButton({
                 ),
                 Text(text,
                     style: TextStyle(
-                      color: ((controller.isSmallButton[2].value ||
-                                  controller.isSmallButton[1].value ||
-                                  controller.isSmallButton[0].value) &&
-                              isthreetap)
+                      color: ((controller.isBigButton.value) && isthreetap)
                           ? Colors.white
                           : Colors.black,
                       fontFamily: 'Pretendard',
@@ -248,6 +257,23 @@ Widget mediumButton(
     onTap: () {
       if (!islongTap) {
         controller.updates(index);
+      } else {
+        for (int i = 0; i < controller.isdirection.length; i++) {
+          controller.isdirection[i].value = false;
+        }
+        controller.isdirection[isdirectionindex].value = true;
+        controller.updates(index);
+      }
+    },
+    onTapDown: (details) async {
+      if (islongTap) {
+        await Future.delayed(const Duration(milliseconds: 300), () {});
+
+        for (int i = 0; i < controller.isdirection.length; i++) {
+          controller.isdirection[i].value = false;
+        }
+
+        controller.updates(0);
       }
     },
     child: Container(
@@ -295,22 +321,11 @@ Widget smallButton(
     required SignalerController controller,
     required int index}) {
   return Obx(() => GestureDetector(
-        onLongPress: () {
+        onTap: () {
           controller.isSmallButton[0].value = false;
           controller.isSmallButton[1].value = false;
           controller.isSmallButton[2].value = false;
           controller.isSmallButton[index].value = true;
-          controller.isSmallButton[0].value
-              ? controller.updates(4)
-              : controller.isSmallButton[1].value
-                  ? controller.updates(10)
-                  : controller.updates(15);
-        },
-        onLongPressEnd: (details) {
-          controller.isSmallButton[0].value = false;
-          controller.isSmallButton[1].value = false;
-          controller.isSmallButton[2].value = false;
-          controller.updates(0);
         },
         child: Container(
             width: 98.w,

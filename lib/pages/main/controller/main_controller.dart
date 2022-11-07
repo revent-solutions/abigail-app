@@ -28,7 +28,7 @@ class MainController extends GetxController {
       Map<String, dynamic>.from(event.snapshot.value as dynamic)
           .forEach((key, value) => {docuid.add(key)});
     });
-    await Future.delayed(const Duration(milliseconds: 1000), () {});
+    await Future.delayed(const Duration(milliseconds: 1500), () {});
 
     for (int i = 0; i < docuid.length; i++) {
       if (onvalue) {
