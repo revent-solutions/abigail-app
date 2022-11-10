@@ -15,6 +15,5 @@ class SignalerController extends GetxController {
   int consecutiveTaps = 0;
   updates(int index) {
     ref.update({"signal": index});
-    print(index);
   }
 }

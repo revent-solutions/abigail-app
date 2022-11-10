@@ -20,11 +20,10 @@ class MainController extends GetxController {
     uid.clear();
 
     ref.onValue.listen((event) {
-      if (uid.isNotEmpty) {
-        return;
-      }
+      if (uid.isNotEmpty) return;
+      if (event.snapshot.value == null) return;
 
-      Map<String, dynamic>.from(event.snapshot.value as dynamic)['workspace']
+      Map<String, dynamic>.from(event.snapshot.value as dynamic)
           .forEach((key, value) {
         docuid.add(key);
       });
