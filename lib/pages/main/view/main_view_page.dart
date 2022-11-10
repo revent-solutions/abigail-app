@@ -129,37 +129,37 @@ Widget workSpaceTile(
       ],
     ),
     child: InkWell(
-        onTap: () {
-          if (controller.isopponent[index]) {
-            Get.dialog(modal(
-                mainText: "Workspace에\n참여하시겠습니까?",
-                numberOfButton: 2,
-                button2Text: 'OK',
-                button2Function: () async {
-                  if (controller.appData.usermodel.type == '플래너') {
-                    await plannerController.data(controller.uid[index]);
+        onTap: () async {
+          Get.dialog(modal(
+              mainText: "Workspace에\n참여하시겠습니까?",
+              numberOfButton: 2,
+              button2Text: 'OK',
+              button2Function: () async {
+                if (controller.appData.usermodel.type == '플래너') {
+                  await plannerController.data(controller.uid[index]);
 
-                    FirebaseDatabase.instance
-                        .ref(controller.uid[index])
-                        .update({"planner": controller.appData.usermodel.uid});
-                    Get.toNamed('/plannermain',
-                        arguments: controller.uid[index]);
-                  } else {
-                    FirebaseDatabase.instance
-                        .ref(controller.uid[index])
-                        .update({"signaler": controller.appData.usermodel.uid});
-                    Get.toNamed('/signalermain',
-                        arguments: controller.uid[index]);
-                  }
-                }));
-          } else {
-            Get.dialog(modal(
-                mainText: "수락 대기중",
-                numberOfButton: 1,
-                button2Function: () async {
-                  Get.back();
-                }));
-          }
+                  FirebaseDatabase.instance
+                      .ref(controller.uid[index])
+                      .update({"planner": controller.appData.usermodel.uid});
+                  Get.toNamed('/plannermain', arguments: controller.uid[index]);
+                } else {
+                  FirebaseDatabase.instance
+                      .ref(controller.uid[index])
+                      .update({"signaler": controller.appData.usermodel.uid});
+                  Get.toNamed('/signalermain',
+                      arguments: controller.uid[index]);
+                }
+              }));
+          // if (controller.isopponent[index] != null &&
+          //     controller.isopponent[index]) {
+          // } else {
+          //   Get.dialog(modal(
+          //       mainText: "수락 대기중",
+          //       numberOfButton: 1,
+          //       button2Function: () async {
+          //         Get.back();
+          //       }));
+          // }
         },
         child: Row(
           children: [

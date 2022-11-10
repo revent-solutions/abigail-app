@@ -12,7 +12,6 @@ class MainController extends GetxController {
 
   bool onvalue = false;
   data() async {
-    print(onvalue);
     onvalue = false;
     var ref = FirebaseDatabase.instance.ref();
     docuid.clear();
@@ -25,8 +24,10 @@ class MainController extends GetxController {
         return;
       }
 
-      Map<String, dynamic>.from(event.snapshot.value as dynamic)
-          .forEach((key, value) => {docuid.add(key)});
+      Map<String, dynamic>.from(event.snapshot.value as dynamic)['workspace']
+          .forEach((key, value) {
+        docuid.add(key);
+      });
     });
     await Future.delayed(const Duration(milliseconds: 1500), () {});
 
@@ -37,7 +38,6 @@ class MainController extends GetxController {
       var equalref = ref;
 
       equalref.onValue.listen((event) async {
-        print(onvalue);
         if (onvalue) {
           return;
         }
@@ -60,7 +60,6 @@ class MainController extends GetxController {
 
   @override
   void onInit() async {
-    // TODO: implement onInit
     await Future.delayed(const Duration(milliseconds: 3000), () {});
 
     onvalue = true;

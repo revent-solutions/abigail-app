@@ -1,6 +1,6 @@
 import 'dart:async';
-import 'dart:io';
 
+import 'package:abigail/firebase_options.dart';
 import 'package:abigail/pages/auth/view/login_viewpage.dart';
 import 'package:abigail/route/route.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -20,25 +20,7 @@ Future<void> backgroundHandler(RemoteMessage message) async {
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  if (Platform.isIOS) {
-    await Firebase.initializeApp(
-        options: const FirebaseOptions(
-            authDomain: 'abigail-28058.firebaseapp.com',
-            measurementId: 'G-PJVYKCWCV0',
-            apiKey: 'AIzaSyB5C3hD0xc7BVvCYzNxCwDahRRVLUxgvYU',
-            appId: '1:955559764958:ios:70fcd11dc524d8e52d334f',
-            messagingSenderId: '955559764958',
-            projectId: 'abigail-28058',
-            storageBucket: 'abigail-28058.appspot.com',
-            iosClientId:
-                '955559764958-i3tqcjq70hmjof6l79duubgvgscjdrdb.apps.googleusercontent.com',
-            iosBundleId: 'com.abigail.abigail',
-            databaseURL:
-                "https://abigail-28058-default-rtdb.asia-southeast1.firebasedatabase.app"));
-  } else {
-    await Firebase.initializeApp();
-  }
-
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp]); // 화면 회전 방지 설정
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
