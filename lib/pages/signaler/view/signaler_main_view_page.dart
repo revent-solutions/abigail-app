@@ -170,7 +170,7 @@ Widget bigButton({
           controller.isSmallButton[0].value
               ? controller.updates(4)
               : controller.isSmallButton[1].value
-                  ? controller.updates(10)
+                  ? controller.updates(9)
                   : controller.updates(15);
 
           controller.isBigButton.value = true;
